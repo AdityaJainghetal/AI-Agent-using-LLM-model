@@ -3,20 +3,26 @@ const axios = require("axios");
 
 const AI_PROVIDER = process.env.AI_PROVIDER || "ollama";
 const DEFAULT_MODEL = process.env.OLLAMA_MODEL || "llama3.2:3b";
+const DEFAULT_TIMEOUT_MS = Number(process.env.OLLAMA_TIMEOUT_MS || 300000);
 const ollamaHttp = axios.create({
   baseURL: process.env.OLLAMA_BASE_URL || "http://localhost:11434",
   headers: { "Content-Type": "application/json" },
-  timeout: 120000,
+  timeout: DEFAULT_TIMEOUT_MS,
 });
 
-async function ollamaChat(messages, { temperature = 0.7 } = {}) {
+async function ollamaChat(messages, { temperature = 0.7, maxTokens } = {}) {
   try {
     const model = DEFAULT_MODEL;
+    const requestedMaxTokens = Number(maxTokens) || 220;
     const resp = await ollamaHttp.post("/api/chat", {
       model,
       messages,
       temperature,
       stream: false,
+      options: {
+        num_predict: Math.min(requestedMaxTokens, 220),
+        num_ctx: 2048,
+      },
     });
 
     return (
@@ -33,6 +39,15 @@ async function ollamaChat(messages, { temperature = 0.7 } = {}) {
       throw new Error(
         `Ollama model '${DEFAULT_MODEL}' is not available. Install it with: ollama pull ${DEFAULT_MODEL}`,
       );
+    }
+
+    if (
+      error.code === "ECONNABORTED" ||
+      error.message?.includes("timeout") ||
+      error.message?.includes("timed out")
+    ) {
+      console.warn("[AI] Ollama timed out; returning a short fallback reply.");
+      return "The model is taking longer than expected. Please try again in a moment.";
     }
 
     throw new Error(error.message || "Ollama service unavailable");

@@ -6,15 +6,7 @@ const morgan = require("morgan");
 const path = require("path");
 const rateLimit = require("express-rate-limit");
 
-const errorHandler = require("./middlewares/errorHandler");
-
-const authRoutes = require("./routes/authRoutes");
-const userRoutes = require("./routes/userRoutes");
-
 const aiRoutes = require("./routes/aiRoutes");
-const ragRoutes = require("./routes/ragRoutes");
-const agentRoutes = require("./routes/agentRoutes");
-const adminRoutes = require("./routes/adminRoutes");
 
 const app = express();
 
@@ -54,17 +46,12 @@ app.get("/", (_req, res) =>
 );
 app.get("/api/health", (_req, res) => res.json({ ok: true, time: new Date() }));
 
-app.use("/api/auth", authRoutes);
-app.use("/api/users", userRoutes);
 
 app.use("/api/ai", aiRoutes);
-app.use("/api/rag", ragRoutes);
-app.use("/api/agents", agentRoutes);
-app.use("/api/admin", adminRoutes);
+
 
 app.use((req, res) =>
   res.status(404).json({ message: `Route ${req.originalUrl} not found` }),
 );
-app.use(errorHandler);
 
 module.exports = app;
