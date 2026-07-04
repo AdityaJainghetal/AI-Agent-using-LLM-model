@@ -1,30 +1,3 @@
-// // const router = require('express').Router();
-// // const c = require('../controllers/agentController');
-// // const { protect } = require('../middlewares/auth');
-
-// // router.post('/study-planner', protect, c.studyPlanner);
-// // router.post('/career', protect, c.career);
-// // router.post('/interview', protect, c.interview);
-// // router.post('/coding-mentor', protect, c.codingMentor);
-// // router.post('/recommender', protect, c.recommender);
-// // router.post('/revision', protect, c.revision);
-
-// // module.exports = router;
-
-
-// const router = require('express').Router();
-// const c = require('../controllers/agentController');
-// const { protect } = require('../middlewares/auth');
-
-// router.post('/study-planner', protect, c.studyPlanner);
-// router.post('/career', protect, c.career);
-// router.post('/interview', protect, c.interview);
-// router.post('/coding-mentor', protect, c.codingMentor);
-// router.post('/recommender', protect, c.recommender);
-// router.post('/revision', protect, c.revision);
-
-// module.exports = router;
-
 
 
 const express = require('express');

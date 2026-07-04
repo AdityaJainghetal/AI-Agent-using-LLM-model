@@ -169,8 +169,8 @@ async function retrieve({
       queryEmbedding = localHashEmbed(query);
     }
 
-    // Build query filter
-    const filter = { user: userId };
+    // Build query filter. If no user is supplied, search across all documents.
+    const filter = userId ? { user: userId } : {};
     if (docId) {
       filter._id = docId;
     }
