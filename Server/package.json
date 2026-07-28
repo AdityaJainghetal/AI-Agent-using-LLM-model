@@ -21,7 +21,7 @@
     "jsonwebtoken": "^9.0.2",
     "langchain": "^0.0.207",
     "mammoth": "^1.8.0",
-    "mongoose": "^8.7.0",
+    "mongoose": "^8.24.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "pdf-parse": "^1.1.1",
